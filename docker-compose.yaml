@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - db
+   
+  customer-services:
+    build: ./customer-services
+    ports:
+      - "3001:3001"
+    environment:
+      - MONGO_URI=mongodb://db:27017/myapp
+      - NODE_ENV=production
+    depends_on:
+      - db
+
+  inventory-services:
+    build: ./inventory-services
+    ports:
+      - "3002:3002"
+    environment:
+      - MONGO_URI=mongodb://db:27017/myapp
+      - NODE_ENV=production
+    depends_on:
+      - db
+      
+  menu-services:
+    build: ./menu-services
+    ports:
+      - "3003:3003"
+    environment:
+      - MONGO_URI=mongodb://db:27017/myapp
+      - NODE_ENV=production
+    depends_on:
+      - db
+      
+  order-services:
+    build: ./order-services
+    ports:
+      - "3004:3004"
+    environment:
+      - MONGO_URI=mongodb://db:27017/myapp
+      - NODE_ENV=production
+    depends_on:
+      - db
+      
+  payment-services:
+    build: ./payment-services
+    ports:
+      - "3005:3005"
+    environment:
+      - MONGO_URI=mongodb://db:27017/myapp
+      - NODE_ENV=production
+    depends_on:
+      - db
+      
+  # Database service
+  db:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+# Define named volumes
+volumes:
+  mongo-data:
+    driver: local
